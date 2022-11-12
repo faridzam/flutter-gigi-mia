@@ -10,6 +10,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import '../../databaseHandlers/DBHelper.dart';
+import '../../models/UserModel.dart';
+
 class MyLogin extends StatefulWidget {
   const MyLogin({Key? key}) : super(key: key);
 
@@ -19,65 +22,90 @@ class MyLogin extends StatefulWidget {
 
 class _MyLoginState extends State<MyLogin> {
 
+  Future<SharedPreferences> _pref = SharedPreferences.getInstance();
   final _formKey = new GlobalKey<FormState>();
-
   final _conUsername = TextEditingController();
   final _conPassword = TextEditingController();
 
+  var dbHelper;
+
   @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the widget tree.
-    // This also removes the _printLatestValue listener.
-    _conUsername.dispose();
-    _conPassword.dispose();
-    super.dispose();
+  void initState(){
+    super.initState();
+    dbHelper = DBHelper();
   }
 
-  final SERVER_IP = "10.0.2.2:8005";
-  final storage = FlutterSecureStorage();
-
-  attempSignIn() async {
-    // Obtain shared preferences.
-    final prefs = await SharedPreferences.getInstance();
+  login() async{
     final form = _formKey.currentState!;
     String username = _conUsername.text;
     String password = _conPassword.text;
 
-    if (form.validate()) {
-        try {
-          Map<String, dynamic> requestPayload = {
-            "username": username,
-            "password": password,
-          };
+    if(username.isEmpty){
+      // alertDialog("username field can't be empty");
+      Fluttertoast.showToast(
+          msg: "username field can't be empty!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }else if(password.isEmpty){
+      // alertDialog("password field can't be empty");
+      Fluttertoast.showToast(
+          msg: "password field can't be empty!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    } else{
+      await dbHelper.getLoginUser(username, password).then((UserData){
+        if(UserData != null){
 
-          var res = await http.post(
-            Uri.http(SERVER_IP, "/api/auth/login"),
-            body: jsonEncode(requestPayload),
-            headers: {'Content-Type': 'application/json'},
-          );
-
-          if(res.statusCode == 200){
-            final extractedData = jsonDecode(res.body) as Map;
-            // set value
-            await prefs.setString('userId', extractedData['id']);
-            await prefs.setString('refreshToken', extractedData['refreshToken']);
-            return res.body;
-          };
-          return null;
-        } catch (error) {
-          //
+          setSP(UserData).whenComplete((){
+            Navigator.pushAndRemoveUntil(
+                context, MaterialPageRoute(builder: (_)=> HomePage()), (Route<dynamic> route) => false
+            );
+          });
+        } else{
+          // alertDialog("User not found!");
           Fluttertoast.showToast(
-              msg: error.toString(),
+              msg: "user not found",
               toastLength: Toast.LENGTH_LONG,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colors.red,
               textColor: Colors.white,
               fontSize: 16.0
           );
-          return null;
         }
+      }).catchError((error){
+        print(error);
+        // alertDialog("login Failed");
+        Fluttertoast.showToast(
+            msg: "login failed",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      });
     }
+  }
+
+  Future setSP(UserModel user) async{
+    final SharedPreferences sp = await _pref;
+
+    sp.setInt("id", user.id);
+    sp.setString("username", user.username);
+    sp.setString("phone", user.phone);
+    sp.setString("password", user.password);
   }
 
   @override
@@ -210,32 +238,7 @@ class _MyLoginState extends State<MyLogin> {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                   ),
-                                  onPressed: () async {
-                                    var jwt = await attempSignIn();
-                                    if(jwt != null) {
-                                      final extractedData = jsonDecode(jwt) as Map;
-                                      storage.write(key: "accessToken", value: extractedData['accessToken']);
-                                      Navigator.pushAndRemoveUntil(
-                                          context, MaterialPageRoute(builder: (_)=> HomePage.fromBase64(extractedData['accessToken'])), (Route<dynamic> route) => false
-                                      );
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) => HomePage.fromBase64(extractedData['accessToken'])
-                                      //     )
-                                      // );
-                                    } else {
-                                      Fluttertoast.showToast(
-                                          msg: "login failed!",
-                                          toastLength: Toast.LENGTH_LONG,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.redAccent,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0
-                                      );
-                                    }
-                                  },
+                                  onPressed: login,
                                   child: Text(
                                     "sign in",
                                     style: TextStyle(

@@ -3,10 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gigi_mia/screens/auth/LoginScreen.dart';
-
-import 'package:http/http.dart' as http;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'dart:convert';
+import '../../databaseHandlers/DBHelper.dart';
+import '../../models/UserModel.dart';
 
 class MyRegister extends StatefulWidget {
   const MyRegister({Key? key}) : super(key: key);
@@ -16,7 +14,6 @@ class MyRegister extends StatefulWidget {
 }
 
 class _MyRegisterState extends State<MyRegister> {
-
   final _formKey = new GlobalKey<FormState>();
 
   final _conUsername = TextEditingController();
@@ -24,21 +21,15 @@ class _MyRegisterState extends State<MyRegister> {
   final _conPassword = TextEditingController();
   final _conPasswordConfirmation = TextEditingController();
 
+  var dbHelper;
+
   @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the widget tree.
-    // This also removes the _printLatestValue listener.
-    _conUsername.dispose();
-    _conPhone.dispose();
-    _conPassword.dispose();
-    _conPasswordConfirmation.dispose();
-    super.dispose();
+  void initState(){
+    super.initState();
+    dbHelper = DBHelper();
   }
 
-  final SERVER_IP = "10.0.2.2:8005";
-  final storage = FlutterSecureStorage();
-
-  attemptSignUp() async {
+  signUp() async{
     final form = _formKey.currentState!;
     String username = _conUsername.text;
     String phone = _conPhone.text;
@@ -52,27 +43,16 @@ class _MyRegisterState extends State<MyRegister> {
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
-            backgroundColor: Colors.redAccent,
+            backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 16.0
         );
-      }
-      else {
-        try{
-
-          Map<String, dynamic> requestPayload = {
-            "username": username,
-            "phone": phone,
-            "password": password,
-          };
-
-          var res = await http.post(
-              Uri.http(SERVER_IP, "/api/auth/signup"),
-              body: jsonEncode(requestPayload),
-              headers: {'Content-Type': 'application/json'},
-          );
+      } else{
+        _formKey.currentState?.save();
+        UserModel uModel = UserModel(username, phone, password);
+        await dbHelper.saveData(uModel).then((userData) {
           Fluttertoast.showToast(
-              msg: "registration Success",
+              msg: "User registration success!",
               toastLength: Toast.LENGTH_LONG,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
@@ -80,28 +60,41 @@ class _MyRegisterState extends State<MyRegister> {
               textColor: Colors.white,
               fontSize: 16.0
           );
+
           Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const MyLogin()),
+              context,
+              MaterialPageRoute(builder: (_)=> MyLogin())
           );
-          return res.statusCode;
-        } catch(error) {
-          //
+
+        }).catchError((error){
+          print(error);
+          // alertDialog("Error: save data failed!");
           Fluttertoast.showToast(
-              msg: error.toString(),
+              msg: "Error: save data failed!",
               toastLength: Toast.LENGTH_LONG,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colors.red,
               textColor: Colors.white,
               fontSize: 16.0
           );
-        }
-
+        });
       }
     }
-  }
 
+    // if(username.isEmpty){
+    //   alertDialog(context, "Please fill username field!");
+    // }else if(email.isEmpty){
+    //   alertDialog(context, "Please fill email field!");
+    // }else if(phone.isEmpty){
+    //   alertDialog(context, "Please fill phone field!");
+    // }else if(password.isEmpty){
+    //   alertDialog(context, "Please fill password field!");
+    // }else if(passwordConfirmation.isEmpty){
+    //   alertDialog(context, "Please fill password confirmation field!");
+    // }
+    // print(username + email + phone + password + passwordConfirmation);
+  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -332,7 +325,7 @@ class _MyRegisterState extends State<MyRegister> {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                   ),
-                                  onPressed: attemptSignUp,
+                                  onPressed: signUp,
                                   child: Text(
                                     "sign up",
                                     style: TextStyle(
