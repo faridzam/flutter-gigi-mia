@@ -12,12 +12,27 @@ class DBHelper{
 
   static const String DB_Name = 'pengasuh_gigi.db';
   static const String Table_User = 'user';
+  static const String Table_Lansia = 'lansia';
+  static const String Table_Keluarga = 'keluarga';
   static const int version = 1;
 
   static const String C_UserID = 'id';
   static const String C_UserName = 'username';
   static const String C_Password = 'password';
   static const String C_Phone = 'phone';
+
+  static const String C_LansiaID = 'id';
+  static const String C_UserId = 'user_id';
+  static const String C_NamaLansia = 'nama';
+  static const String C_UsiaLansia = 'usia';
+  static const String C_JenisKelamin = 'jeniskelamin';
+
+  static const String C_KeluargaID = 'id';
+  static const String C_User_ID = 'user_id';
+  static const String C_NamaKeluarga = 'nama';
+  static const String C_UsiaKeluarga = 'usia';
+  static const String C_TanggalLahir = 'tanggallahir';
+  static const String C_TingkatPendidikan = 'tingkatpendidikan';
 
   Future<Database?> get db async{
     if(_db != null){
@@ -42,8 +57,45 @@ class DBHelper{
         "$C_Phone TEXT, "
         "$C_Password TEXT "
         ")");
+    await db.execute("CREATE TABLE question ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "question_text TEXT UNIQUE "
+        ")");
+    await db.execute("CREATE TABLE answer ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "question_id INTEGER, "
+        "answer_text TEXT, "
+        "isTrue INTEGER "
+        ")");
+    await db.execute("CREATE TABLE pretest ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "user_id INTEGER, "
+        "score INTEGER "
+        ")");
+    await db.execute("CREATE TABLE posttest ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "user_id INTEGER, "
+        "score INTEGER "
+        ")");
 
-    // await _createDefaultTugas(db);
+    await db.execute("CREATE TABLE $Table_Lansia ("
+        "$C_LansiaID INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "$C_UserId INTEGER, "
+        "$C_NamaLansia TEXT, "
+        "$C_UsiaLansia TEXT, "
+        "$C_JenisKelamin TEXT "
+        ")");
+    await db.execute("CREATE TABLE $Table_Keluarga ("
+        "$C_KeluargaID INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "$C_User_ID INTEGER , "
+        "$C_NamaKeluarga TEXT, "
+        "$C_UsiaKeluarga TEXT, "
+        "$C_TanggalLahir TEXT, "
+        "$C_TingkatPendidikan TEXT "
+        ")");
+
+    await _createDefaultQuestion(db);
+    await _createDefaultAnswer(db);
   }
 
   Future<int> saveData(UserModel user) async{
@@ -64,25 +116,22 @@ class DBHelper{
     return null;
   }
 
-  Future<void> _createDefaultTugas(Database database) async {
+  Future<void> _createDefaultQuestion(Database database) async {
     Batch batch = database.batch();
-    batch.insert("tugas", {'id': 1, 'category': 1, 'name' : 'tugas 1', 'description': 'Penyuluhan Kesehatan Gigi (Materi : Anatomi Gigi)'});
-    batch.insert("tugas", {'id': 2, 'category': 1, 'name' : 'tugas 2', 'description': 'Pemeriksaan Gigi Sederhana'});
-    batch.insert("tugas", {'id': 3, 'category': 1, 'name' : 'tugas 3', 'description': 'Rujukan (Bila ada)'});
-    batch.insert("tugas", {'id': 4, 'category': 1, 'name' : 'tugas 4', 'description': 'Pembuatan Laporan Periode I'});
-    batch.insert("tugas", {'id': 5, 'category': 2, 'name' : 'tugas 1', 'description': 'Penyuluhan Kesehatan Gigi (Materi : Penyakit Gigi dan Mulut)'});
-    batch.insert("tugas", {'id': 6, 'category': 2, 'name' : 'tugas 2', 'description': 'Pemeriksaan Gigi Sederhana'});
-    batch.insert("tugas", {'id': 7, 'category': 2, 'name' : 'tugas 3', 'description': 'Rujukan (Bila ada)'});
-    batch.insert("tugas", {'id': 8, 'category': 2, 'name' : 'tugas 4', 'description': 'Pembuatan Laporan Periode II'});
-    batch.insert("tugas", {'id': 9, 'category': 3, 'name' : 'tugas 1', 'description': 'Penyuluhan Kesehatan Gigi (Materi : Pencegahan Kerusakan Gigi)'});
-    batch.insert("tugas", {'id': 10, 'category': 3, 'name' : 'tugas 2', 'description': 'Pemeriksaan Gigi Sederhana'});
-    batch.insert("tugas", {'id': 11, 'category': 3, 'name' : 'tugas 3', 'description': 'Rujukan (Bila ada)'});
-    batch.insert("tugas", {'id': 12, 'category': 3, 'name' : 'tugas 4', 'description': 'Pembuatan Laporan Periode III'});
-    batch.insert("tugas", {'id': 13, 'category': 4, 'name' : 'tugas 1', 'description': 'Penyuluhan Kesehatan Gigi (Materi : Memelihara Kesehatan Gigi Lansia)'});
-    batch.insert("tugas", {'id': 14, 'category': 4, 'name' : 'tugas 2', 'description': 'Pemeriksaan Gigi Sederhana'});
-    batch.insert("tugas", {'id': 15, 'category': 4, 'name' : 'tugas 3', 'description': 'Rujukan (Bila ada)'});
-    batch.insert("tugas", {'id': 16, 'category': 4, 'name' : 'tugas 4', 'description': 'Pembuatan Laporan Periode IV'});
-
+    batch.insert("question", {'id': 1, 'question_text': "pertanyaan1?"});
+    batch.insert("question", {'id': 2, 'question_text': "pertanyaan2?"});
+    await batch.commit(noResult: true);
+  }
+  Future<void> _createDefaultAnswer(Database database) async {
+    Batch batch = database.batch();
+    batch.insert("answer", {'id': 1, 'question_id': 1, 'answer_text': "salah", 'isTrue': 0});
+    batch.insert("answer", {'id': 2, 'question_id': 1, 'answer_text': "benar", 'isTrue': 1});
+    batch.insert("answer", {'id': 3, 'question_id': 1, 'answer_text': "salah", 'isTrue': 0});
+    batch.insert("answer", {'id': 4, 'question_id': 1, 'answer_text': "salah", 'isTrue': 0});
+    batch.insert("answer", {'id': 5, 'question_id': 2, 'answer_text': "salah", 'isTrue': 0});
+    batch.insert("answer", {'id': 6, 'question_id': 2, 'answer_text': "salah", 'isTrue': 0});
+    batch.insert("answer", {'id': 7, 'question_id': 2, 'answer_text': "benar", 'isTrue': 1});
+    batch.insert("answer", {'id': 8, 'question_id': 2, 'answer_text': "salah", 'isTrue': 0});
     await batch.commit(noResult: true);
   }
 

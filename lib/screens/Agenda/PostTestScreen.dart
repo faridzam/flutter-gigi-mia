@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:gigi_mia/databaseHandlers/PretestHelper.dart';
+import 'package:gigi_mia/databaseHandlers/PostTestHelper.dart';
 
 import 'package:gigi_mia/models/AnswerModel.dart';
-import 'package:gigi_mia/models/PretestModel.dart';
+import 'package:gigi_mia/models/PostTestModel.dart';
 import 'package:gigi_mia/models/QuestionModel.dart';
 import 'package:gigi_mia/screens/Agenda/PretestScoreScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../databaseHandlers/AnswerHelper.dart';
 import '../../databaseHandlers/QuestionHelper.dart';
 
-class PretestScreen extends StatefulWidget {
-  const PretestScreen({Key? key}) : super(key: key);
+class PostTestScreen extends StatefulWidget {
+  const PostTestScreen({Key? key}) : super(key: key);
 
   @override
-  State<PretestScreen> createState() => _PretestScreenState();
+  State<PostTestScreen> createState() => _PostTestScreenState();
 }
 
-class _PretestScreenState extends State<PretestScreen> {
+class _PostTestScreenState extends State<PostTestScreen> {
 
   Future<SharedPreferences> _pref = SharedPreferences.getInstance();
   int user_id = 0;
@@ -32,7 +32,7 @@ class _PretestScreenState extends State<PretestScreen> {
 
   var dbHelperQuestion;
   var dbHelperAnswer;
-  var dbHelperPretest;
+  var dbHelperPostTest;
 
   int? _conQuestion1 = 0;
   int? _conQuestion2 = 0;
@@ -45,7 +45,7 @@ class _PretestScreenState extends State<PretestScreen> {
     super.initState();
     dbHelperQuestion = QuestionHelper();
     dbHelperAnswer = AnswerHelper();
-    dbHelperPretest = PretestHelper();
+    dbHelperPostTest = PostTestHelper();
     getQuestionAnswer();
     getUserData();
     ifScoreExist();
@@ -99,22 +99,22 @@ class _PretestScreenState extends State<PretestScreen> {
       group = _conQuestion2;
     }
     list.add(
-      new Container(
-        child: Column(
-          children: [
-            for(var answer in answers)
-              if(answer.question_id == question_id)
-                RadioListTile(
-                  title: Text(answer.answer_text.toString()),
-                  value: answer.id,
-                  groupValue: group,
-                  onChanged: (value){
-                    _handleRadioValueChange(value as int, question_id);
-                  },
-                ),
-          ],
-        ),
-      )
+        new Container(
+          child: Column(
+            children: [
+              for(var answer in answers)
+                if(answer.question_id == question_id)
+                  RadioListTile(
+                    title: Text(answer.answer_text.toString()),
+                    value: answer.id,
+                    groupValue: group,
+                    onChanged: (value){
+                      _handleRadioValueChange(value as int, question_id);
+                    },
+                  ),
+            ],
+          ),
+        )
     );
     return new Column(children: list,);
   }
@@ -150,10 +150,10 @@ class _PretestScreenState extends State<PretestScreen> {
     print(_true);
     print(score);
 
-    PretestModel pretestModel = PretestModel(user_id, score.toInt());
-    await dbHelperPretest.insertPreset(pretestModel).then((pretestData) {
+    PostTestModel postTestModel = PostTestModel(user_id, score.toInt());
+    await dbHelperPostTest.insertPostTest(postTestModel).then((postTestData) {
       Fluttertoast.showToast(
-          msg: "pretest finished successfully!",
+          msg: "post-test finished successfully!",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -184,9 +184,9 @@ class _PretestScreenState extends State<PretestScreen> {
 
   ifScoreExist() async{
     //
-    await dbHelperPretest.getScoreUser().then((pretestData) {
+    await dbHelperPostTest.getScoreUser().then((postTestData) {
 
-      if(pretestData != null){
+      if(postTestData != null){
         Navigator.pushAndRemoveUntil(
             context, MaterialPageRoute(builder: (_)=> PretestScoreScreen()), (Route<dynamic> route) => true
         );
@@ -218,39 +218,39 @@ class _PretestScreenState extends State<PretestScreen> {
     return Container(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("ini pretest"),
+          title: Text("ini post-test"),
         ),
         body: Container(
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                genQuestion(),
-                SizedBox(
-                  width: 20,
-                ),
-                Container(
-                  width: 150,
-                  decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(50)
+              child: Column(
+                children: [
+                  genQuestion(),
+                  SizedBox(
+                    width: 20,
                   ),
-                  child: TextButton.icon(
-                    onPressed: submit,
-                    icon: const Icon(
-                      Icons.login_outlined,
-                      size: 18,
-                      color: Colors.white,
+                  Container(
+                    width: 150,
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(50)
                     ),
-                    label: const Text(
-                      "submit",
-                      style: TextStyle(
+                    child: TextButton.icon(
+                      onPressed: submit,
+                      icon: const Icon(
+                        Icons.login_outlined,
+                        size: 18,
                         color: Colors.white,
                       ),
+                      label: const Text(
+                        "submit",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                  ),
-                )
-              ],
-            )
+                  )
+                ],
+              )
           ),
         ),
       ),
