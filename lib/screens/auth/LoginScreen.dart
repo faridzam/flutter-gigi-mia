@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gigi_mia/screens/HomePage.dart';
+import 'package:gigi_mia/screens/TutorialScreen.dart';
 import 'package:gigi_mia/screens/auth/RegisterScreen.dart';
 
 import 'package:http/http.dart' as http;
@@ -20,7 +21,6 @@ class MyLogin extends StatefulWidget {
 }
 
 class _MyLoginState extends State<MyLogin> {
-
   Future<SharedPreferences> _pref = SharedPreferences.getInstance();
   final _formKey = new GlobalKey<FormState>();
   final _conUsername = TextEditingController();
@@ -29,17 +29,17 @@ class _MyLoginState extends State<MyLogin> {
   var dbHelper;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     dbHelper = DBHelper();
   }
 
-  login() async{
+  login() async {
     final form = _formKey.currentState!;
     String username = _conUsername.text;
     String password = _conPassword.text;
 
-    if(username.isEmpty){
+    if (username.isEmpty) {
       // alertDialog("username field can't be empty");
       Fluttertoast.showToast(
           msg: "username field can't be empty!",
@@ -48,9 +48,8 @@ class _MyLoginState extends State<MyLogin> {
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.red,
           textColor: Colors.white,
-          fontSize: 16.0
-      );
-    }else if(password.isEmpty){
+          fontSize: 16.0);
+    } else if (password.isEmpty) {
       // alertDialog("password field can't be empty");
       Fluttertoast.showToast(
           msg: "password field can't be empty!",
@@ -59,18 +58,17 @@ class _MyLoginState extends State<MyLogin> {
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.red,
           textColor: Colors.white,
-          fontSize: 16.0
-      );
-    } else{
-      await dbHelper.getLoginUser(username, password).then((UserData){
-        if(UserData != null){
-
-          setSP(UserData).whenComplete((){
+          fontSize: 16.0);
+    } else {
+      await dbHelper.getLoginUser(username, password).then((UserData) {
+        if (UserData != null) {
+          setSP(UserData).whenComplete(() {
             Navigator.pushAndRemoveUntil(
-                context, MaterialPageRoute(builder: (_)=> HomePage()), (Route<dynamic> route) => false
-            );
+                context,
+                MaterialPageRoute(builder: (_) => HomePage()),
+                    (Route<dynamic> route) => false);
           });
-        } else{
+        } else {
           // alertDialog("User not found!");
           Fluttertoast.showToast(
               msg: "user not found",
@@ -79,10 +77,9 @@ class _MyLoginState extends State<MyLogin> {
               timeInSecForIosWeb: 1,
               backgroundColor: Colors.red,
               textColor: Colors.white,
-              fontSize: 16.0
-          );
+              fontSize: 16.0);
         }
-      }).catchError((error){
+      }).catchError((error) {
         print(error);
         // alertDialog("login Failed");
         Fluttertoast.showToast(
@@ -92,13 +89,12 @@ class _MyLoginState extends State<MyLogin> {
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.red,
             textColor: Colors.white,
-            fontSize: 16.0
-        );
+            fontSize: 16.0);
       });
     }
   }
 
-  Future setSP(UserModel user) async{
+  Future setSP(UserModel user) async {
     final SharedPreferences sp = await _pref;
 
     sp.setInt("id", user.id);
@@ -114,7 +110,8 @@ class _MyLoginState extends State<MyLogin> {
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/images/auth/login.png'), fit: BoxFit.cover),
+              image: AssetImage('assets/images/auth/login.png'),
+              fit: BoxFit.cover),
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -126,7 +123,10 @@ class _MyLoginState extends State<MyLogin> {
                   padding: EdgeInsets.only(left: 35, top: 80),
                   child: Text(
                     'Welcome\nBack',
-                    style: TextStyle(color: Colors.white, fontSize: 33, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 33,
+                        fontWeight: FontWeight.w600),
                   ),
                 ),
                 SingleChildScrollView(
@@ -138,7 +138,8 @@ class _MyLoginState extends State<MyLogin> {
                       children: [
                         Container(
                           margin: EdgeInsets.only(left: 40, right: 40),
-                          padding: EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 30),
+                          padding: EdgeInsets.only(
+                              left: 20, right: 20, top: 30, bottom: 30),
                           decoration: new BoxDecoration(
                             //you can get rid of below line also
                             borderRadius: new BorderRadius.circular(10.0),
@@ -175,9 +176,7 @@ class _MyLoginState extends State<MyLogin> {
                                       hintStyle: TextStyle(color: Colors.white),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
-
-                                      )
-                                  ),
+                                      )),
                                 ),
                                 SizedBox(
                                   height: 30,
@@ -247,8 +246,7 @@ class _MyLoginState extends State<MyLogin> {
                                   ),
                                 ),
                               ),
-                            ]
-                        ),
+                            ]),
                         SizedBox(
                           height: 40,
                         ),
@@ -258,15 +256,15 @@ class _MyLoginState extends State<MyLogin> {
                             Text(
                               "doesn't have an account?",
                               textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15),
+                              style:
+                              TextStyle(color: Colors.white, fontSize: 15),
                             ),
                             TextButton(
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const MyRegister()),
+                                  MaterialPageRoute(
+                                      builder: (context) => const MyRegister()),
                                 );
                               },
                               child: Text(
@@ -279,8 +277,32 @@ class _MyLoginState extends State<MyLogin> {
                               ),
                               style: ButtonStyle(),
                             ),
+                            SizedBox(
+                              height: 40,
+                            ),
                           ],
                         ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const TutorialScreen()),
+                                  );
+                                },
+                                child: Text(
+                                  'Klik untuk Tutorial',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 15),
+                                ),
+                                style: ButtonStyle(),
+                              ),
+                            ]),
                       ],
                     ),
                   ),

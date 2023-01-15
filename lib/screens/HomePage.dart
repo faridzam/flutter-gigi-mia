@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gigi_mia/Screens/Auth/LoginScreen.dart';
+import 'package:gigi_mia/screens/AkunScreen.dart';
 import 'package:gigi_mia/screens/BiodataLansia.dart';
 import 'package:gigi_mia/screens/KeluargaLansia.dart';
 import 'package:gigi_mia/screens/AgendaScreen.dart';
@@ -116,39 +117,6 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => const BiodataLansia()),
-                            );
-                          },
-                          elevation: 4.0,
-                          fillColor: Colors.white,
-                          child: new Image(
-                            image:
-                            new AssetImage("assets/images/icon/test.png"),
-                            height: 80,
-                            width: 80,
-                            color: null,
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.center,
-                          ),
-                          padding: EdgeInsets.all(15.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text("RANGKAIAN TEST"),
-                        SizedBox(
-                          height: 20,
-                        ),
-                      ]),
-                      Column(children: [
-                        RawMaterialButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
                               MaterialPageRoute(builder: (context) => const AgendaScreen()),
                             );
                           },
@@ -176,24 +144,20 @@ class _HomePageState extends State<HomePage> {
                           height: 20,
                         ),
                       ]),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment
-                        .spaceBetween, //Center Row contents vertically,
-                    children: [
                       Column(children: [
                         RawMaterialButton(
                           onPressed: () {
-                            Navigator.pushAndRemoveUntil(
-                                context, MaterialPageRoute(builder: (_)=> MyLogin()), (Route<dynamic> route) => false
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AkunScreen()),
                             );
                           },
                           elevation: 4.0,
                           fillColor: Colors.white,
                           child: new Image(
                             image:
-                            new AssetImage("assets/images/icon/logout.png"),
+                            new AssetImage("assets/images/icon/account.png"),
                             height: 80,
                             width: 80,
                             color: null,
@@ -208,10 +172,47 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text("LOGOUT"),
+                        Text("Akun"),
+                        SizedBox(
+                          height: 20,
+                        ),
                       ]),
                     ],
-                  )
+                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment
+                  //       .spaceBetween, //Center Row contents vertically,
+                  //   children: [
+                  //     Column(children: [
+                  //       RawMaterialButton(
+                  //         onPressed: () {
+                  //           Navigator.pushAndRemoveUntil(
+                  //               context, MaterialPageRoute(builder: (_)=> MyLogin()), (Route<dynamic> route) => false
+                  //           );
+                  //         },
+                  //         elevation: 4.0,
+                  //         fillColor: Colors.white,
+                  //         child: new Image(
+                  //           image:
+                  //           new AssetImage("assets/images/icon/logout.png"),
+                  //           height: 80,
+                  //           width: 80,
+                  //           color: null,
+                  //           fit: BoxFit.scaleDown,
+                  //           alignment: Alignment.center,
+                  //         ),
+                  //         padding: EdgeInsets.all(15.0),
+                  //         shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.circular(15.0),
+                  //         ),
+                  //       ),
+                  //       SizedBox(
+                  //         height: 10,
+                  //       ),
+                  //       Text("LOGOUT"),
+                  //     ]),
+                  //   ],
+                  // )
                 ],
               ),
             ),

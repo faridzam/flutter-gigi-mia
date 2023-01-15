@@ -6,6 +6,15 @@ import '../../models/KeluargaModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
+const List<String> list = <String>[
+  'SD',
+  'SMP',
+  'SMK',
+  'D3',
+  'S1',
+  'S2',
+];
+
 class AddKeluargaLansia extends StatefulWidget {
   const AddKeluargaLansia({Key? key}) : super(key: key);
 
@@ -23,11 +32,15 @@ class _AddKeluargaLansia extends State<AddKeluargaLansia> {
     });
   }
 
+  String dropdownValue = list.first;
+  String? selectedValue = null;
+
   final _formKey = new GlobalKey<FormState>();
   final _conNama = TextEditingController();
   final _conUsia = TextEditingController();
   final _conTanggalLahir = TextEditingController();
-  final _conTingkatPendidikan = TextEditingController();
+  //final _conTingkatPendidikan = TextEditingController();
+  String _conTingkatPendidikan = "";
 
   var dbHelper;
 
@@ -44,7 +57,7 @@ class _AddKeluargaLansia extends State<AddKeluargaLansia> {
     String nama = _conNama.text;
     String usia = _conUsia.text;
     String tanggallahir = _conTanggalLahir.text;
-    String tingkatpendidikan = _conTingkatPendidikan.text;
+    String tingkatpendidikan = _conTingkatPendidikan;
 
     if (form.validate()) {
       if (nama == 'null') {
@@ -90,9 +103,9 @@ class _AddKeluargaLansia extends State<AddKeluargaLansia> {
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Scaffold(
-            backgroundColor: Colors.greenAccent,
+            backgroundColor: Colors.white,
             appBar: AppBar(
-              backgroundColor: Colors.lightBlue,
+              backgroundColor: Colors.blueAccent,
               centerTitle: true,
               title: Text("TAMBAH KELUARGA LANSIA"),
               elevation: 0,
@@ -117,15 +130,9 @@ class _AddKeluargaLansia extends State<AddKeluargaLansia> {
                             //below line is for rectangular shape
                             shape: BoxShape.rectangle,
                             //you can change opacity with color here(I used black) for rect
-                            color: Colors.white.withOpacity(0.07),
+                            color: Color.fromARGB(255, 245, 171, 53)
+                                .withOpacity(0.7),
                             //I added some shadow, but you can remove boxShadow also.
-                            boxShadow: <BoxShadow>[
-                              new BoxShadow(
-                                color: Colors.black26.withOpacity(0.2),
-                                blurRadius: 5.0,
-                                offset: new Offset(5.0, 5.0),
-                              ),
-                            ],
                           ),
                           child: Form(
                             key: _formKey,
@@ -133,7 +140,7 @@ class _AddKeluargaLansia extends State<AddKeluargaLansia> {
                               children: [
                                 TextFormField(
                                   controller: _conNama,
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.black),
                                   keyboardType: TextInputType.text,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -161,7 +168,7 @@ class _AddKeluargaLansia extends State<AddKeluargaLansia> {
                                         ),
                                       ),
                                       hintText: "Nama Lengkap",
-                                      hintStyle: TextStyle(color: Colors.white),
+                                      hintStyle: TextStyle(color: Colors.black),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       )),
@@ -171,7 +178,7 @@ class _AddKeluargaLansia extends State<AddKeluargaLansia> {
                                 ),
                                 TextFormField(
                                   controller: _conUsia,
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.black),
                                   keyboardType: TextInputType.number,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -199,7 +206,7 @@ class _AddKeluargaLansia extends State<AddKeluargaLansia> {
                                         ),
                                       ),
                                       hintText: "Usia ",
-                                      hintStyle: TextStyle(color: Colors.white),
+                                      hintStyle: TextStyle(color: Colors.black),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       )),
@@ -209,7 +216,7 @@ class _AddKeluargaLansia extends State<AddKeluargaLansia> {
                                 ),
                                 TextFormField(
                                     controller: _conTanggalLahir,
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(color: Colors.black),
                                     decoration: InputDecoration(
                                         icon: Icon(Icons.calendar_today),
                                         enabledBorder: OutlineInputBorder(
@@ -228,7 +235,7 @@ class _AddKeluargaLansia extends State<AddKeluargaLansia> {
                                         ),
                                         hintText: "Tanggal lahir ",
                                         hintStyle:
-                                            TextStyle(color: Colors.white),
+                                            TextStyle(color: Colors.black),
                                         border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -266,37 +273,48 @@ class _AddKeluargaLansia extends State<AddKeluargaLansia> {
                                 SizedBox(
                                   height: 20,
                                 ),
-                                TextFormField(
-                                  controller: _conTingkatPendidikan,
-                                  style: TextStyle(color: Colors.white),
-                                  keyboardType: TextInputType.text,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Masukkan Tingkat Pendidikan ";
-                                    } else if (value.length < 1) {
-                                      return "error";
-                                    }
-                                    return null;
-                                  },
+                                DropdownButtonFormField(
                                   decoration: InputDecoration(
-                                      icon: Icon(Icons.school),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          color: Colors.white,
-                                        ),
+                                    icon: Icon(Icons.school),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: Colors.black,
                                       ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      hintText: "Tingkat pendidikan",
-                                      hintStyle: TextStyle(color: Colors.white),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      )),
+                                    ),
+                                    hintText: "Tingkat Pendidikan",
+                                    hintStyle: TextStyle(color: Colors.black),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    // filled: true,
+                                    //fillColor: Colors.blueAccent,
+                                  ),
+                                  validator: (value) => value == null
+                                      ? "Pilih Tigkat Pendidikan"
+                                      : null,
+                                  dropdownColor:
+                                      Color.fromARGB(255, 245, 171, 53)
+                                          .withOpacity(0.9),
+                                  value: selectedValue,
+                                  style: const TextStyle(color: Colors.black),
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      _conTingkatPendidikan = value!;
+                                    });
+                                  },
+                                  items: list.map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
                                 ),
                                 SizedBox(
                                   height: 20,
@@ -316,8 +334,9 @@ class _AddKeluargaLansia extends State<AddKeluargaLansia> {
                                           //below line is for rectangular shape
                                           shape: BoxShape.rectangle,
                                           //you can change opacity with color here(I used black) for rect
-                                          color: Color(0xFFECCA92)
-                                              .withOpacity(0.7),
+                                          color:
+                                              Color.fromARGB(255, 245, 171, 53)
+                                                  .withOpacity(0.9),
                                           //I added some shadow, but you can remove boxShadow also.
                                           boxShadow: <BoxShadow>[
                                             new BoxShadow(

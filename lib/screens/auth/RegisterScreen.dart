@@ -18,6 +18,7 @@ class _MyRegisterState extends State<MyRegister> {
 
   final _conUsername = TextEditingController();
   final _conPhone = TextEditingController();
+  final _conEmail = TextEditingController();
   final _conPassword = TextEditingController();
   final _conPasswordConfirmation = TextEditingController();
 
@@ -33,6 +34,7 @@ class _MyRegisterState extends State<MyRegister> {
     final form = _formKey.currentState!;
     String username = _conUsername.text;
     String phone = _conPhone.text;
+    String email = _conEmail.text;
     String password = _conPassword.text;
     String passwordConfirmation = _conPasswordConfirmation.text;
 
@@ -49,7 +51,7 @@ class _MyRegisterState extends State<MyRegister> {
         );
       } else{
         _formKey.currentState?.save();
-        UserModel uModel = UserModel(username, phone, password);
+        UserModel uModel = UserModel(username, phone, email, password);
         await dbHelper.saveData(uModel).then((userData) {
           Fluttertoast.showToast(
               msg: "User registration success!",
@@ -81,19 +83,6 @@ class _MyRegisterState extends State<MyRegister> {
         });
       }
     }
-
-    // if(username.isEmpty){
-    //   alertDialog(context, "Please fill username field!");
-    // }else if(email.isEmpty){
-    //   alertDialog(context, "Please fill email field!");
-    // }else if(phone.isEmpty){
-    //   alertDialog(context, "Please fill phone field!");
-    // }else if(password.isEmpty){
-    //   alertDialog(context, "Please fill password field!");
-    // }else if(passwordConfirmation.isEmpty){
-    //   alertDialog(context, "Please fill password confirmation field!");
-    // }
-    // print(username + email + phone + password + passwordConfirmation);
   }
   @override
   Widget build(BuildContext context) {
@@ -213,6 +202,41 @@ class _MyRegisterState extends State<MyRegister> {
                                         ),
                                       ),
                                       hintText: "Phone",
+                                      hintStyle: TextStyle(color: Colors.white),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      )),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  controller: _conEmail,
+                                  style: TextStyle(color: Colors.white),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    RegExp regex = new RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+                                    if (value == null || value.isEmpty) {
+                                      return "this field can't be empty";
+                                    } else if (!regex.hasMatch(value)){
+                                      return "please enter valid email address";
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      hintText: "Email",
                                       hintStyle: TextStyle(color: Colors.white),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),

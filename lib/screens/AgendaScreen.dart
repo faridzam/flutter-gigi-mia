@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gigi_mia/databaseHandlers/PostTestHelper.dart';
 import 'package:gigi_mia/databaseHandlers/PretestHelper.dart';
 import 'package:gigi_mia/screens/Agenda/MateriScreen.dart';
+import 'package:gigi_mia/screens/Agenda/PerencanaanScreen.dart';
 import 'package:gigi_mia/screens/Agenda/PostTestScreen.dart';
+import 'package:gigi_mia/screens/Agenda/PretestKeluargaScreen.dart';
 import 'package:gigi_mia/screens/Agenda/PretestScoreScreen.dart';
 import 'package:gigi_mia/screens/Agenda/PretestScreen.dart';
 
@@ -90,6 +92,43 @@ class _AgendaScreenState extends State<AgendaScreen> {
                         : () {
                           Navigator.push(
                             context,
+                            MaterialPageRoute(builder: (context) => const PretestKeluargaScreen()),
+                          );
+                        },
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        child: Icon(
+                          Icons.task,
+                          size: 35.0,
+                        ),
+                        padding: EdgeInsets.all(15.0),
+                        shape: CircleBorder(),
+                      ),
+                      SizedBox(height: 15,),
+                      Container(
+                        width: 100,
+                        child: Text(
+                          "Pre-Test Keluarga",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Column(
+                    children: [
+                      RawMaterialButton(
+                        onPressed: pretestStatus ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const PretestScoreScreen()),
+                          );
+                        }
+                            : () {
+                          Navigator.push(
+                            context,
                             MaterialPageRoute(builder: (context) => const PretestScreen()),
                           );
                         },
@@ -106,14 +145,14 @@ class _AgendaScreenState extends State<AgendaScreen> {
                       Container(
                         width: 100,
                         child: Text(
-                          "Pre-Test",
+                          "Pre-Test Lansia",
                           textAlign: TextAlign.center,
                         ),
                       ),
                     ],
                   ),
                   SizedBox(
-                    width: 40,
+                    width: 20,
                   ),
                   Column(
                     children: [
@@ -181,7 +220,75 @@ class _AgendaScreenState extends State<AgendaScreen> {
                     ],
                   ),
                   SizedBox(
-                    width: 40,
+                    width: 20,
+                  ),
+                  Column(
+                    children: [
+                      RawMaterialButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const PerencanaanScreen()),
+                          );
+                        },
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        child: Icon(
+                          Icons.task,
+                          size: 35.0,
+                        ),
+                        padding: EdgeInsets.all(15.0),
+                        shape: CircleBorder(),
+                      ),
+                      SizedBox(height: 15,),
+                      Container(
+                        width: 100,
+                        child: Text(
+                          "Perencanaan",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Column(
+                    children: [
+                      RawMaterialButton(
+                        onPressed: postTestStatus ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const PretestScoreScreen()),
+                          );
+                        }
+                            : () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const PostTestScreen()),
+                          );
+                        },
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        child: Icon(
+                          Icons.task,
+                          size: 35.0,
+                        ),
+                        padding: EdgeInsets.all(15.0),
+                        shape: CircleBorder(),
+                      ),
+                      SizedBox(height: 15,),
+                      Container(
+                        width: 100,
+                        child: Text(
+                          "Post-Test",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 20,
                   ),
                   Column(
                     children: [
@@ -242,6 +349,37 @@ class _AgendaScreenState extends State<AgendaScreen> {
                         : () {
                           Navigator.push(
                             context,
+                            MaterialPageRoute(builder: (context) => const PretestKeluargaScreen()),
+                          );
+                        },
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        child: Icon(
+                          Icons.task,
+                          size: 35.0,
+                        ),
+                        padding: EdgeInsets.all(15.0),
+                        shape: CircleBorder(),
+                      ),
+                      SizedBox(height: 15,),
+                      Text("Pre-Test Keluarga"),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Column(
+                    children: [
+                      RawMaterialButton(
+                        onPressed: pretestStatus ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const PretestScoreScreen()),
+                          );
+                        }
+                            : () {
+                          Navigator.push(
+                            context,
                             MaterialPageRoute(builder: (context) => const PretestScreen()),
                           );
                         },
@@ -255,11 +393,11 @@ class _AgendaScreenState extends State<AgendaScreen> {
                         shape: CircleBorder(),
                       ),
                       SizedBox(height: 15,),
-                      Text("Pre-Test"),
+                      Text("Pre-Test Lansia"),
                     ],
                   ),
                   SizedBox(
-                    width: 40,
+                    width: 20,
                   ),
                   Column(
                     children: [
@@ -325,7 +463,37 @@ class _AgendaScreenState extends State<AgendaScreen> {
                     ],
                   ),
                   SizedBox(
-                    width: 40,
+                    width: 20,
+                  ),
+                  Column(
+                    children: [
+                      RawMaterialButton(
+                        onPressed:null,
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        child: Icon(
+                          Icons.task,
+                          color: Color(0x77000000),
+                          size: 35.0,
+                        ),
+                        padding: EdgeInsets.all(15.0),
+                        shape: CircleBorder(),
+                      ),
+                      SizedBox(height: 15,),
+                      Container(
+                        width: 100,
+                        child: Text(
+                          "Perencanaan",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0x77000000),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 20,
                   ),
                   Column(
                     children: [

@@ -6,8 +6,8 @@ import '../../models/LansiaModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const List<String> list = <String>[
-  'LAKI-LAKI',
-  'PEREMPUAN',
+  'laki-laki',
+  'perempuan',
 ];
 
 class AddBiodataLansia extends StatefulWidget {
@@ -95,7 +95,7 @@ class _AddBiodataLansia extends State<AddBiodataLansia> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.lightBlue,
+          backgroundColor: Colors.blueAccent,
           centerTitle: true,
           title: Text("TAMBAH BIODATA LANSIA"),
           elevation: 0,
@@ -120,94 +120,31 @@ class _AddBiodataLansia extends State<AddBiodataLansia> {
                           //below line is for rectangular shape
                           shape: BoxShape.rectangle,
                           //you can change opacity with color here(I used black) for rect
-                          color: Colors.white.withOpacity(0.1),
+                          color: Color.fromARGB(255, 245, 171, 53)
+                              .withOpacity(0.7),
                           //I added some shadow, but you can remove boxShadow also.
-                          boxShadow: <BoxShadow>[
-                            new BoxShadow(
-                              color: Colors.black26.withOpacity(0.2),
-                              blurRadius: 5.0,
-                              offset: new Offset(5.0, 5.0),
-                            ),
-                          ],
                         ),
                         child: Form(
                           key: _formKey,
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                controller: _conNama,
-                                style: TextStyle(color: Colors.white),
-                                keyboardType: TextInputType.text,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Masukkan Nama Lansia";
-                                  } else if (value.length < 1) {
-                                    return "error";
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    hintText: "Nama Lengkap",
-                                    hintStyle: TextStyle(color: Colors.white),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    )),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              TextFormField(
-                                controller: _conUsia,
-                                style: TextStyle(color: Colors.white),
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Masukkan Usia Lansia";
-                                  } else if (value.length < 1) {
-                                    return "error";
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    hintText: "Usia Lansia",
-                                    hintStyle: TextStyle(color: Colors.white),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    )),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              DropdownButtonFormField(
-
-                                decoration: InputDecoration(
+                          child: Column(children: [
+                            TextFormField(
+                              controller: _conNama,
+                              style: TextStyle(color: Colors.black),
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Masukkan Nama Lansia";
+                                } else if (value.length < 1) {
+                                  return "error";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
                                     borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -215,91 +152,141 @@ class _AddBiodataLansia extends State<AddBiodataLansia> {
                                       color: Colors.black,
                                     ),
                                   ),
-                                  hintText: "Jenis Kelamin",
-                                  hintStyle: TextStyle(color: Colors.white),
+                                  hintText: "Nama Lengkap",
+                                  hintStyle: TextStyle(color: Colors.black),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
+                                  )),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              controller: _conUsia,
+                              style: TextStyle(color: Colors.black),
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Masukkan Usia Lansia";
+                                } else if (value.length < 1) {
+                                  return "error";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                  filled: true,
-                                  fillColor: Colors.blueAccent,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  hintText: "Usia Lansia",
+                                  hintStyle: TextStyle(color: Colors.black),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  )),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            DropdownButtonFormField(
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                validator: (value) => value == null
-                                    ? "Pilih Jenis Kelamin"
-                                    : null,
-                                dropdownColor: Colors.blueAccent,
-                                value: selectedValue,
-                                style: const TextStyle(color: Colors.white),
-                                onChanged: (String? value) {
-                                  // Fluttertoast.showToast(
-                                  //   msg: value.toString(),
-                                  // toastLength: Toast.LENGTH_LONG,
-                                  //gravity: ToastGravity.BOTTOM,
-                                  //timeInSecForIosWeb: 1,
-                                  //backgroundColor: Colors.green,
-                                  //textColor: Colors.white,
-                                  //fontSize: 16.0);
-                                  // This is called when the user selects an item.
-                                  setState(() {
-                                    _conJenisKelamin= value!;
-                                  });
-                                },
-                                items: list.map<DropdownMenuItem<String>>(
-                                    (String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 125,
-                              height: 40,
-                              margin: EdgeInsets.only(left: 40, right: 40),
-                              decoration: new BoxDecoration(
-                                //you can get rid of below line also
-                                borderRadius: new BorderRadius.circular(30.0),
-                                //below line is for rectangular shape
-                                shape: BoxShape.rectangle,
-                                //you can change opacity with color here(I used black) for rect
-                                color: Color(0xFFECCA92).withOpacity(0.7),
-                                //I added some shadow, but you can remove boxShadow also.
-                                boxShadow: <BoxShadow>[
-                                  new BoxShadow(
-                                    color: Colors.black26.withOpacity(0.2),
-                                    blurRadius: 5.0,
-                                    offset: new Offset(5.0, 5.0),
-                                  ),
-                                ],
-                              ),
-                              child: TextButton(
-                                style: TextButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
                                   ),
                                 ),
-                                onPressed: addBio,
-                                child: Text(
-                                  "Tambah",
-                                  style: TextStyle(
-                                    color: Color(0xffffffff),
-                                    fontSize: 18,
-                                  ),
+                                hintText: "Jenis Kelamin",
+                                hintStyle: TextStyle(color: Colors.black),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
+                                //filled: true,
+                                //fillColor: Colors.blueAccent,
                               ),
+                              validator: (value) =>
+                                  value == null ? "Pilih Jenis Kelamin" : null,
+                              dropdownColor: Color.fromARGB(255, 245, 171, 53)
+                                  .withOpacity(0.9),
+                              value: selectedValue,
+                              style: const TextStyle(color: Colors.black),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  _conJenisKelamin = value!;
+                                });
+                              },
+                              items: list.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 125,
+                                    height: 40,
+                                    margin:
+                                        EdgeInsets.only(left: 40, right: 40),
+                                    decoration: new BoxDecoration(
+                                      //you can get rid of below line also
+                                      borderRadius:
+                                          new BorderRadius.circular(30.0),
+                                      //below line is for rectangular shape
+                                      shape: BoxShape.rectangle,
+                                      //you can change opacity with color here(I used black) for rect
+                                      color: Color.fromARGB(255, 245, 171, 53)
+                                          .withOpacity(0.9),
+                                      //I added some shadow, but you can remove boxShadow also.
+                                      boxShadow: <BoxShadow>[
+                                        new BoxShadow(
+                                          color:
+                                              Colors.black26.withOpacity(0.2),
+                                          blurRadius: 5.0,
+                                          offset: new Offset(5.0, 5.0),
+                                        ),
+                                      ],
+                                    ),
+                                    child: TextButton(
+                                      style: TextButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                      ),
+                                      onPressed: addBio,
+                                      child: Text(
+                                        "Tambah",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ]),
+                            SizedBox(
+                              height: 20,
                             ),
                           ]),
-                      SizedBox(
-                        height: 20,
+                        ),
                       ),
                     ],
                   ),
