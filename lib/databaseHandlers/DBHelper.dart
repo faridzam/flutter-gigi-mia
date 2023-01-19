@@ -94,11 +94,13 @@ class DBHelper{
     await db.execute("CREATE TABLE pretest ("
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
         "user_id INTEGER, "
+        "type INTEGER, "
         "score INTEGER "
         ")");
     await db.execute("CREATE TABLE posttest ("
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
         "user_id INTEGER, "
+        "type INTEGER, "
         "score INTEGER "
         ")");
 
@@ -291,7 +293,7 @@ class DBHelper{
     batch.insert("question_lansia", {
       'id': 6,
       'question_text':
-      "8.	Gerakan apakah yang digunakan untuk menggosok gigi bagian kunyah ?"
+      "6.	Kapan waktu untuk periksa gigi ke kinik gigi?"
     });
     batch.insert("question_lansia", {
       'id': 7,
@@ -444,13 +446,13 @@ class DBHelper{
       'id': 15,
       'question_id': 4,
       'answer_text': "c.	Siang hari",
-      'isTrue': 1
+      'isTrue': 0
     });
     batch.insert("answer_keluarga", {
       'id': 16,
       'question_id': 4,
       'answer_text': "d.	Sehabis makan dan sebelum tidur malam ",
-      'isTrue': 0
+      'isTrue': 1
     });
     batch.insert("answer_keluarga", {
       'id': 17,

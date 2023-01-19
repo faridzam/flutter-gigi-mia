@@ -7,6 +7,7 @@ import 'package:gigi_mia/screens/Agenda/PostTestScreen.dart';
 import 'package:gigi_mia/screens/Agenda/PretestKeluargaScreen.dart';
 import 'package:gigi_mia/screens/Agenda/PretestScoreScreen.dart';
 import 'package:gigi_mia/screens/Agenda/PretestScreen.dart';
+import 'package:gigi_mia/screens/Agenda/pretestLansiaScreen.dart';
 
 class AgendaScreen extends StatefulWidget {
   const AgendaScreen({Key? key}) : super(key: key);
@@ -19,7 +20,8 @@ class _AgendaScreenState extends State<AgendaScreen> {
 
   var dbHelperPretest;
   var dbHelperPostTest;
-  late bool pretestStatus = false;
+  late bool pretestStatusKeluarga = false;
+  late bool pretestStatusLansia = false;
   late bool postTestStatus = false;
 
   @override
@@ -27,25 +29,47 @@ class _AgendaScreenState extends State<AgendaScreen> {
     super.initState();
     dbHelperPretest = PretestHelper();
     dbHelperPostTest = PostTestHelper();
-    isPretestExist();
+    isPretestKeluargaExist();
+    isPretestLansiaExist();
   }
 
-  isPretestExist() async{
-    await dbHelperPretest.getScoreUser().then((pretestData) {
+  isPretestKeluargaExist() async{
+    await dbHelperPretest.getScoreKeluarga().then((pretestData) {
 
       if(pretestData != null){
         //
         setState((){
-          pretestStatus = true;
+          pretestStatusKeluarga = true;
         });
       } else{
         //
         setState((){
-          pretestStatus = false;
+          pretestStatusKeluarga = false;
         });
       }
 
     }).catchError((error){
+      print(error);
+      return null;
+    });
+  }
+  isPretestLansiaExist() async{
+    await dbHelperPretest.getScoreLansia().then((pretestData) {
+
+      if(pretestData != null){
+        //
+        setState((){
+          pretestStatusLansia = true;
+        });
+      } else{
+        //
+        setState((){
+          pretestStatusLansia = false;
+        });
+      }
+
+    }).catchError((error){
+      print(error);
       return null;
     });
   }
@@ -71,7 +95,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
   }
 
   renderMenu() {
-    if(pretestStatus){
+    if(pretestStatusKeluarga && pretestStatusLansia){
       //
       return new Center(
         child: Column(
@@ -83,7 +107,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
                   Column(
                     children: [
                       RawMaterialButton(
-                        onPressed: pretestStatus ? () {
+                        onPressed: pretestStatusKeluarga ? () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => const PretestScoreScreen()),
@@ -120,7 +144,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
                   Column(
                     children: [
                       RawMaterialButton(
-                        onPressed: pretestStatus ? () {
+                        onPressed: pretestStatusLansia ? () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => const PretestScoreScreen()),
@@ -129,7 +153,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
                             : () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const PretestScreen()),
+                            MaterialPageRoute(builder: (context) => const PretestLansiaScreen()),
                           );
                         },
                         elevation: 2.0,
@@ -281,15 +305,21 @@ class _AgendaScreenState extends State<AgendaScreen> {
                       Container(
                         width: 100,
                         child: Text(
-                          "Post-Test",
+                          "Post-Test Keluarga",
                           textAlign: TextAlign.center,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: 20,
-                  ),
+                ]
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
+                crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,
+                children: [
                   Column(
                     children: [
                       RawMaterialButton(
@@ -299,7 +329,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
                             MaterialPageRoute(builder: (context) => const PretestScoreScreen()),
                           );
                         }
-                        : () {
+                            : () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => const PostTestScreen()),
@@ -318,7 +348,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
                       Container(
                         width: 100,
                         child: Text(
-                          "Post-Test",
+                          "Post-Test Lansia",
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -340,7 +370,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
                   Column(
                     children: [
                       RawMaterialButton(
-                        onPressed: pretestStatus ? () {
+                        onPressed: pretestStatusKeluarga ? () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => const PretestScoreScreen()),
@@ -371,7 +401,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
                   Column(
                     children: [
                       RawMaterialButton(
-                        onPressed: pretestStatus ? () {
+                        onPressed: pretestStatusLansia ? () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => const PretestScoreScreen()),
@@ -380,7 +410,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
                             : () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const PretestScreen()),
+                            MaterialPageRoute(builder: (context) => const PretestLansiaScreen()),
                           );
                         },
                         elevation: 2.0,
@@ -513,7 +543,43 @@ class _AgendaScreenState extends State<AgendaScreen> {
                       Container(
                         width: 100,
                         child: Text(
-                          "Post-Test",
+                          "Post-Test Keluarga",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0x77000000),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ]
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
+                crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,
+                children: [
+                  Column(
+                    children: [
+                      RawMaterialButton(
+                        onPressed:null,
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        child: Icon(
+                          Icons.task,
+                          color: Color(0x77000000),
+                          size: 35.0,
+                        ),
+                        padding: EdgeInsets.all(15.0),
+                        shape: CircleBorder(),
+                      ),
+                      SizedBox(height: 15,),
+                      Container(
+                        width: 100,
+                        child: Text(
+                          "Post-Test Lansia",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(0x77000000),

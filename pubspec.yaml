@@ -80,6 +80,8 @@ flutter:
     - assets/images/
     - assets/images/icon/
     - assets/images/auth/
+    - assets/images/tutorial/
+    - assets/images/perencanaan/
     - assets/pdf/
 
   # An image asset can refer to one or more resolution-specific "variants", see

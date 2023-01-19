@@ -150,7 +150,7 @@ class _PostTestScreenState extends State<PostTestScreen> {
     print(_true);
     print(score);
 
-    PostTestModel postTestModel = PostTestModel(user_id, score.toInt());
+    PostTestModel postTestModel = PostTestModel(user_id, 1, score.toInt());
     await dbHelperPostTest.insertPostTest(postTestModel).then((postTestData) {
       Fluttertoast.showToast(
           msg: "post-test finished successfully!",

@@ -100,6 +100,7 @@ class _MyLoginState extends State<MyLogin> {
     sp.setInt("id", user.id);
     sp.setString("username", user.username);
     sp.setString("phone", user.phone);
+    sp.setString("email", user.email);
     sp.setString("password", user.password);
   }
 

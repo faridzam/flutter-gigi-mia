@@ -1,4 +1,5 @@
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:async';
@@ -84,6 +85,33 @@ class QuestionnaireHelper{
 
     // Convert the List<Map<String, dynamic> into a List<Breed>.
     return List.generate(maps.length, (index) => QuestionnaireAnswerModel.fromMap(maps[index]));
+  }
+
+  Future<int> insertTindakanUserKeluarga(tindakan) async{
+    var dbClient = await db;
+
+    final prefs = await SharedPreferences.getInstance();
+    final int? _id = prefs.getInt('id');
+
+    for (var i=0; i < tindakan.length; i++) {
+      var res = await dbClient!.insert(Table_User, TindakanUserModel(_id!, i+1, 0, tindakan[i]).toMap());
+      print(res);
+    }
+
+    return 1;
+  }
+  Future<int> insertTindakanUserLansia(tindakan) async{
+    var dbClient = await db;
+
+    final prefs = await SharedPreferences.getInstance();
+    final int? _id = prefs.getInt('id');
+
+    for (var i=0; i < tindakan.length; i++) {
+      var res = await dbClient!.insert(Table_User, TindakanUserModel(_id!, i+8, 1, tindakan[i]).toMap());
+      print(res);
+    }
+
+    return 1;
   }
 
 

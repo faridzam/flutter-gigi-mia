@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:gigi_mia/models/AnswerModel.dart';
@@ -41,6 +42,23 @@ class _PretestKeluargaScreenState extends State<PretestKeluargaScreen> {
   var answeredListArray;
   var tindakanListArray;
 
+  Future<SharedPreferences> _pref = SharedPreferences.getInstance();
+  int user_id = 0;
+  String username = "";
+  String phone = "";
+  String email = "";
+
+  Future<void> getUserData() async{
+    final SharedPreferences sp = await _pref;
+
+    setState((){
+      user_id = sp.getInt("id")!;
+      username = sp.getString("username")!;
+      phone = sp.getString("phone")!;
+      email = sp.getString("email")!;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -56,6 +74,7 @@ class _PretestKeluargaScreenState extends State<PretestKeluargaScreen> {
     tindakanListArray = [];
     getQuestionByID(questionID);
     getAnswersByID(questionID);
+    getUserData();
   }
 
   getQuestionByID(id) async {
@@ -99,7 +118,20 @@ class _PretestKeluargaScreenState extends State<PretestKeluargaScreen> {
 
   submit() async {
     //
-    await dbHelperAnswer.getCorrectAnswer(answeredListArray).then((response) {
+    setState((){
+      answeredListArray.add(1);
+    });
+
+    await dbHelperAnswer.getCorrectAnswerKeluarga(answeredListArray).then((response) async{
+      var score = response/20*100;
+      print(score);
+
+      await dbHelperPretest.insertPretest(PretestModel(user_id, 0, score.toInt())).then((response) {
+        print(response);
+      });
+    });
+
+    await dbHelperQuestionnaire.insertTindakanUserKeluarga(tindakanListArray).then((response) async{
       print(response);
     });
   }

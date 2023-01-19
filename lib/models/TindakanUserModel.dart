@@ -9,7 +9,6 @@ class TindakanUserModel{
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      'id': id,
       'user_id': user_id,
       'tindakan_id': tindakan_id,
       'type': type,

@@ -86,7 +86,7 @@ class PostTestHelper{
     final prefs = await SharedPreferences.getInstance();
     final int? _id = prefs.getInt('id');
     final List<Map<String, dynamic>> data = await dbclient!.query(Table, columns: [C_Id, C_UserID, C_Score], where:'$C_UserID = ?', whereArgs: [_id]);
-    final PostTestModel lastData = PostTestModel(data.last["user_id"], data.last['score']);
+    final PostTestModel lastData = PostTestModel(data.last["user_id"], data.last["type"], data.last['score']);
 
     print(data.last['score']);
     return lastData;

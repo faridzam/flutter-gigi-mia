@@ -16,6 +16,7 @@ class PretestHelper{
 
   static const String C_Id = 'id';
   static const String C_UserID = 'user_id';
+  static const String C_Type = 'type';
   static const String C_Score = 'score';
 
   Future<Database?> get db async{
@@ -39,6 +40,7 @@ class PretestHelper{
     await db.execute("CREATE TABLE $Table ("
         "$C_Id INTEGER PRIMARY KEY AUTOINCREMENT, "
         "$C_UserID INTEGER, "
+        "$C_Type INTEGER, "
         "$C_Score INTEGER "
         ")"
     );
@@ -47,7 +49,7 @@ class PretestHelper{
     print('Open Database');
   }
 
-  Future<int> insertPreset(PretestModel pretest) async{
+  Future<int> insertPretest(PretestModel pretest) async{
     var dbClient = await db;
     var res = await dbClient!.insert(Table, pretest.toMap());
     return res;
@@ -80,14 +82,38 @@ class PretestHelper{
     return List.generate(maps.length, (index) => PretestModel.fromMap(maps[index]));
   }
 
-  Future<PretestModel?> getScoreUser() async {
+  Future<List<PretestModel?>> getScoreUser() async {
     var dbclient = await db;
     final prefs = await SharedPreferences.getInstance();
     final int? _id = prefs.getInt('id');
-    final List<Map<String, dynamic>> data = await dbclient!.query(Table, columns: [C_Id, C_UserID, C_Score], where:'$C_UserID = ?', whereArgs: [_id]);
-    final PretestModel lastData = PretestModel(data.last["user_id"], data.last['score']);
+    List<PretestModel> result = [];
+    final List<Map<String, dynamic>> dataKeluarga = await dbclient!.query(Table, columns: [C_Id, C_UserID, C_Type, C_Score], where:'$C_UserID = ? and $C_Type = ?', whereArgs: [_id, 0]);
+    final List<Map<String, dynamic>> dataLansia = await dbclient.query(Table, columns: [C_Id, C_UserID, C_Type, C_Score], where:'$C_UserID = ? and $C_Type = ?', whereArgs: [_id, 1]);
+    result.add(PretestModel(dataKeluarga.last["user_id"], dataKeluarga.last['type'], dataKeluarga.last['score']));
+    result.add(PretestModel(dataLansia.last["user_id"], dataLansia.last['type'], dataLansia.last['score']));
 
-    print(data.last['score']);
+    print(dataKeluarga);
+    print(dataLansia);
+    print(result);
+    return result;
+  }
+
+  Future<PretestModel?> getScoreKeluarga() async {
+    var dbclient = await db;
+    final prefs = await SharedPreferences.getInstance();
+    final int? _id = prefs.getInt('id');
+    final List<Map<String, dynamic>> dataKeluarga = await dbclient!.query(Table, columns: [C_Id, C_UserID, C_Type, C_Score], where:'$C_UserID = ? and $C_Type = ?', whereArgs: [_id, 0]);
+    final PretestModel lastData = PretestModel(dataKeluarga.last["user_id"], dataKeluarga.last['type'], dataKeluarga.last['score']);
+
+    return lastData;
+  }
+  Future<PretestModel?> getScoreLansia() async {
+    var dbclient = await db;
+    final prefs = await SharedPreferences.getInstance();
+    final int? _id = prefs.getInt('id');
+    final List<Map<String, dynamic>> dataLansia = await dbclient!.query(Table, columns: [C_Id, C_UserID, C_Type, C_Score], where:'$C_UserID = ? and $C_Type = ?', whereArgs: [_id, 1]);
+    final PretestModel lastData = PretestModel(dataLansia.last["user_id"], dataLansia.last['type'], dataLansia.last['score']);
+
     return lastData;
   }
 

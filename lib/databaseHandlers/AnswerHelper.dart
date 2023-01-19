@@ -187,18 +187,38 @@ class AnswerHelper{
     return List.generate(maps.length, (index) => AnswerModel.fromMap(maps[index]));
   }
 
-  Future<int> getCorrectAnswer(answered) async {
+  Future<int> getCorrectAnswerKeluarga(answered) async {
     // Get a reference to the database.
     var dbclient = await db;
 
+    // var joinedAnswer = answered.join(', ')+', 1';
+    // Query the table for all the Breeds.
+    final List<Map<String, dynamic>> maps = await dbclient!.query(
+      Table_Keluarga,
+      where: "id IN (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) and isTrue = ?",
+      whereArgs: answered,
+    );
+    // final List<Map> maps = await dbclient!.rawQuery("Select * FROM $Table_Keluarga WHERE id IN (${List.filled(answered.length, '?').join(',')})", [joinedAnswer]);
+
+    // Convert the List<Map<String, dynamic> into a List<Breed>.
+    print(maps);
+    return maps.length;
+  }
+  Future<int> getCorrectAnswerLansia(answered) async {
+    // Get a reference to the database.
+    var dbclient = await db;
+
+    // var joinedAnswer = answered.join(', ')+', 1';
     // Query the table for all the Breeds.
     final List<Map<String, dynamic>> maps = await dbclient!.query(
       Table_Lansia,
-      where: "id IN (${List.filled(answered.length, '?').join(',')}) and isTrue = ?",
-      whereArgs: [answered, 1],
+      where: "id IN (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) and isTrue = ?",
+      whereArgs: answered,
     );
+    // final List<Map> maps = await dbclient!.rawQuery("Select * FROM $Table_Keluarga WHERE id IN (${List.filled(answered.length, '?').join(',')})", [joinedAnswer]);
 
     // Convert the List<Map<String, dynamic> into a List<Breed>.
+    print(maps);
     return maps.length;
   }
 
