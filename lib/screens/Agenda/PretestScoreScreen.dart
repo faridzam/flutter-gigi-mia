@@ -19,8 +19,10 @@ class _PretestScoreScreenState extends State<PretestScoreScreen> {
 
   var dbHelperPretest;
   var dbHelperPostTest;
-  double pretestScore = 0;
-  double postTestScore = 0;
+  double pretestScoreKeluarga = 0;
+  double pretestScoreLansia = 0;
+  double postTestScoreKeluarga = 0;
+  double postTestScoreLansia = 0;
 
   @override
   void initState() {
@@ -28,16 +30,29 @@ class _PretestScoreScreenState extends State<PretestScoreScreen> {
     dbHelperPretest = PretestHelper();
     dbHelperPostTest = PostTestHelper();
     getPretestScore();
-    getPostTestScore();
+    // getPostTestScore();
   }
 
   Future<double?> getPretestScore() async{
     //
-    await dbHelperPretest.getScoreUser().then((PretestModel? pretestData) {
+    await dbHelperPretest.getScoreKeluarga().then((PretestModel? pretestData) {
 
       if(pretestData != null){
         setState((){
-          pretestScore = pretestData.score!.toDouble();
+          pretestScoreKeluarga = pretestData.score!.toDouble();
+        });
+      } else {
+        return null;
+      }
+
+    }).catchError((error){
+      return null;
+    });
+    await dbHelperPretest.getScoreLansia().then((PretestModel? pretestData) {
+
+      if(pretestData != null){
+        setState((){
+          pretestScoreLansia = pretestData.score!.toDouble();
         });
       } else {
         return null;
@@ -53,7 +68,7 @@ class _PretestScoreScreenState extends State<PretestScoreScreen> {
 
       if(postTestData != null){
         setState((){
-          postTestScore = postTestData.score!.toDouble();
+          postTestScoreKeluarga = postTestData.score!.toDouble();
         });
       } else {
         return null;
@@ -88,7 +103,7 @@ class _PretestScoreScreenState extends State<PretestScoreScreen> {
                       x: 1,
                       barRods: [
                         BarChartRodData(
-                          toY: pretestScore,
+                          toY: pretestScoreKeluarga,
                           width: 30,
                           color: Colors.redAccent,
                         )
@@ -96,9 +111,29 @@ class _PretestScoreScreenState extends State<PretestScoreScreen> {
                     ),
                     BarChartGroupData(
                       x: 2,
+                      barRods: [
+                        BarChartRodData(
+                          toY: pretestScoreLansia,
+                          width: 30,
+                          color: Colors.redAccent,
+                        )
+                      ]
+                    ),
+                    BarChartGroupData(
+                      x: 3,
                         barRods: [
                           BarChartRodData(
-                            toY: postTestScore,
+                            toY: postTestScoreKeluarga,
+                            width: 30,
+                            color: Colors.green,
+                          )
+                        ]
+                    ),
+                    BarChartGroupData(
+                      x: 4,
+                        barRods: [
+                          BarChartRodData(
+                            toY: postTestScoreLansia,
                             width: 30,
                             color: Colors.green,
                           )

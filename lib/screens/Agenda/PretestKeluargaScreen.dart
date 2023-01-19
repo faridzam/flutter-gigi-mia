@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gigi_mia/screens/HomePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:gigi_mia/models/AnswerModel.dart';
@@ -134,6 +135,21 @@ class _PretestKeluargaScreenState extends State<PretestKeluargaScreen> {
     await dbHelperQuestionnaire.insertTindakanUserKeluarga(tindakanListArray).then((response) async{
       print(response);
     });
+
+    Fluttertoast.showToast(
+        msg: "answers submited",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0);
+
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => HomePage()),
+            (Route<dynamic> route) => false);
+
   }
 
   @override
