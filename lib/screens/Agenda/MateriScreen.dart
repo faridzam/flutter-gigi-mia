@@ -18,14 +18,42 @@ class MateriScreen extends StatefulWidget {
 class _MateriScreenState extends State<MateriScreen> {
 
   String Materi1PDF = "";
-  final String Materi1PDFPath = "assets/pdf/MODUL_PENYAKIT_GIGI_DAN_MULUT_PADA_LANSIA.pdf";
+  String Materi2PDF = "";
+  String Materi3PDF = "";
+  String Materi4PDF = "";
+  String Materi5PDF = "";
+  final String Materi1PDFPath = "assets/pdf/MODUL_ASUHAN.pdf";
+  final String Materi2PDFPath = "assets/pdf/MODUL_CARA_MENYIKAT_GIGI.pdf";
+  final String Materi3PDFPath = "assets/pdf/MODUL_KARIES_DAN_KARANG_GIGI.pdf";
+  final String Materi4PDFPath = "assets/pdf/MODUL_KEBERSIHAN_GIGI_DAN_MULUT.pdf";
+  final String Materi5PDFPath = "assets/pdf/MODUL_PERTUMBUHAN_GIGI.pdf";
 
   @override
   void initState() {
     super.initState();
-    fromAsset('assets/pdf/MODUL_PENYAKIT_GIGI_DAN_MULUT_PADA_LANSIA.pdf', 'MODUL_PENYAKIT_GIGI_DAN_MULUT_PADA_LANSIA.pdf').then((f) {
+    fromAsset(Materi1PDFPath, 'MODUL_ASUHAN.pdf').then((f) {
       setState(() {
         Materi1PDF = f.path;
+      });
+    });
+    fromAsset(Materi2PDFPath, 'MODUL_CARA_MENYIKAT_GIGI.pdf').then((f) {
+      setState(() {
+        Materi2PDF = f.path;
+      });
+    });
+    fromAsset(Materi3PDFPath, 'MODUL_KARIES_DAN_KARANG_GIGI.pdf').then((f) {
+      setState(() {
+        Materi3PDF = f.path;
+      });
+    });
+    fromAsset(Materi4PDFPath, 'MODUL_KEBERSIHAN_GIGI_DAN_MULUT.pdf').then((f) {
+      setState(() {
+        Materi4PDF = f.path;
+      });
+    });
+    fromAsset(Materi5PDFPath, 'MODUL_PERTUMBUHAN_GIGI.pdf').then((f) {
+      setState(() {
+        Materi5PDF = f.path;
       });
     });
 
@@ -111,7 +139,207 @@ class _MateriScreenState extends State<MateriScreen> {
                           child: TextButton(
                             onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=> DisplayPdf(path: Materi1PDF, asset: Materi1PDFPath))),
                             child: Text(
-                              "Penyakit Gigi dan Mulut Pada Lansia",
+                              "Modul Asuhan",
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
+                              alignment: Alignment.centerLeft,
+                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          // child: TextButton(
+                          //   onPressed: () {
+                          //     print("action");
+                          //   },
+                          //   child: Icon(Icons.more_vert),
+                          //   style: TextButton.styleFrom(
+                          //     padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
+                          //     alignment: Alignment.centerLeft,
+                          //     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                          //   ),
+                          // ),
+                        ),
+                      ]
+                  ),
+                ),
+                SizedBox(height: 20,),
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blueAccent),
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(30)
+                    ),
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          width: 270,
+                          child: TextButton(
+                            onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=> DisplayPdf(path: Materi2PDF, asset: Materi2PDFPath))),
+                            child: Text(
+                              "Modul Cara Menyikat Gigi",
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
+                              alignment: Alignment.centerLeft,
+                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          // child: TextButton(
+                          //   onPressed: () {
+                          //     print("action");
+                          //   },
+                          //   child: Icon(Icons.more_vert),
+                          //   style: TextButton.styleFrom(
+                          //     padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
+                          //     alignment: Alignment.centerLeft,
+                          //     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                          //   ),
+                          // ),
+                        ),
+                      ]
+                  ),
+                ),
+                SizedBox(height: 20,),
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blueAccent),
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(30)
+                    ),
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          width: 270,
+                          child: TextButton(
+                            onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=> DisplayPdf(path: Materi3PDF, asset: Materi3PDFPath))),
+                            child: Text(
+                              "Modul Karies dan Karang Gigi",
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
+                              alignment: Alignment.centerLeft,
+                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          // child: TextButton(
+                          //   onPressed: () {
+                          //     print("action");
+                          //   },
+                          //   child: Icon(Icons.more_vert),
+                          //   style: TextButton.styleFrom(
+                          //     padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
+                          //     alignment: Alignment.centerLeft,
+                          //     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                          //   ),
+                          // ),
+                        ),
+                      ]
+                  ),
+                ),
+                SizedBox(height: 20,),
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blueAccent),
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(30)
+                    ),
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          width: 270,
+                          child: TextButton(
+                            onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=> DisplayPdf(path: Materi4PDF, asset: Materi4PDFPath))),
+                            child: Text(
+                              "Modul Kebersihan Gigi dan Mulut",
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
+                              alignment: Alignment.centerLeft,
+                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          // child: TextButton(
+                          //   onPressed: () {
+                          //     print("action");
+                          //   },
+                          //   child: Icon(Icons.more_vert),
+                          //   style: TextButton.styleFrom(
+                          //     padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
+                          //     alignment: Alignment.centerLeft,
+                          //     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                          //   ),
+                          // ),
+                        ),
+                      ]
+                  ),
+                ),
+                SizedBox(height: 20,),
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blueAccent),
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(30)
+                    ),
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          width: 270,
+                          child: TextButton(
+                            onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=> DisplayPdf(path: Materi5PDF, asset: Materi5PDFPath))),
+                            child: Text(
+                              "Modul Pertumbuhan Gigi",
                               style: TextStyle(
                                 fontSize: 18,
                               ),

@@ -200,7 +200,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
                       Container(
                         width: 100,
                         child: Text(
-                          "Edukasi Mater",
+                          "Implementasi",
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -215,37 +215,6 @@ class _AgendaScreenState extends State<AgendaScreen> {
                 mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                 crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,
                 children: [
-                  Column(
-                    children: [
-                      RawMaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const MateriScreen()),
-                          );
-                        },
-                        elevation: 2.0,
-                        fillColor: Colors.white,
-                        child: Icon(
-                          Icons.task,
-                          size: 35.0,
-                        ),
-                        padding: EdgeInsets.all(15.0),
-                        shape: CircleBorder(),
-                      ),
-                      SizedBox(height: 15,),
-                      Container(
-                        width: 100,
-                        child: Text(
-                          "Edukasi Oral Hygene",
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
                   Column(
                     children: [
                       RawMaterialButton(
@@ -311,15 +280,9 @@ class _AgendaScreenState extends State<AgendaScreen> {
                       ),
                     ],
                   ),
-                ]
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
-                crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,
-                children: [
+                  SizedBox(
+                    width: 20,
+                  ),
                   Column(
                     children: [
                       RawMaterialButton(
@@ -447,7 +410,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
                       Container(
                         width: 100,
                         child: Text(
-                          "Edukasi Materi",
+                          "Implementasi",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(0x77000000),
@@ -465,36 +428,6 @@ class _AgendaScreenState extends State<AgendaScreen> {
                 mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
                 crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,
                 children: [
-                  Column(
-                    children: [
-                      RawMaterialButton(
-                        onPressed:null,
-                        elevation: 2.0,
-                        fillColor: Colors.white,
-                        child: Icon(
-                          Icons.task,
-                          color: Color(0x77000000),
-                          size: 35.0,
-                        ),
-                        padding: EdgeInsets.all(15.0),
-                        shape: CircleBorder(),
-                      ),
-                      SizedBox(height: 15,),
-                      Container(
-                        width: 100,
-                        child: Text(
-                          "Edukasi Oral Hygene",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0x77000000),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
                   Column(
                     children: [
                       RawMaterialButton(
@@ -552,15 +485,9 @@ class _AgendaScreenState extends State<AgendaScreen> {
                       ),
                     ],
                   ),
-                ]
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
-                crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,
-                children: [
+                  SizedBox(
+                    width: 20,
+                  ),
                   Column(
                     children: [
                       RawMaterialButton(
