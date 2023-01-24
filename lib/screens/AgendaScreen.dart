@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gigi_mia/databaseHandlers/PostTestHelper.dart';
 import 'package:gigi_mia/databaseHandlers/PretestHelper.dart';
 import 'package:gigi_mia/screens/Agenda/MateriScreen.dart';
+import 'package:gigi_mia/screens/Agenda/PemeriksaanScreen.dart';
 import 'package:gigi_mia/screens/Agenda/PerencanaanScreen.dart';
 import 'package:gigi_mia/screens/Agenda/PostTestScreen.dart';
 import 'package:gigi_mia/screens/Agenda/PretestKeluargaScreen.dart';
@@ -319,6 +320,43 @@ class _AgendaScreenState extends State<AgendaScreen> {
                   ),
                 ]
             ),
+            SizedBox(
+              height: 50,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
+              crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,
+              children: [
+                Column(
+                  children: [
+                    RawMaterialButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const PemeriksaanScreen()),
+                        );
+                      },
+                      elevation: 2.0,
+                      fillColor: Colors.white,
+                      child: Icon(
+                        Icons.task,
+                        size: 35.0,
+                      ),
+                      padding: EdgeInsets.all(15.0),
+                      shape: CircleBorder(),
+                    ),
+                    SizedBox(height: 15,),
+                    Container(
+                      width: 100,
+                      child: Text(
+                        "Pemeriksaan",
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ]
+            ),
           ],
         ),
       );
@@ -507,6 +545,42 @@ class _AgendaScreenState extends State<AgendaScreen> {
                         width: 100,
                         child: Text(
                           "Post-Test Lansia",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0x77000000),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ]
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
+                crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,
+                children: [
+                  Column(
+                    children: [
+                      RawMaterialButton(
+                        onPressed:null,
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        child: Icon(
+                          Icons.task,
+                          color: Color(0x77000000),
+                          size: 35.0,
+                        ),
+                        padding: EdgeInsets.all(15.0),
+                        shape: CircleBorder(),
+                      ),
+                      SizedBox(height: 15,),
+                      Container(
+                        width: 100,
+                        child: Text(
+                          "Pemeriksaan",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(0x77000000),

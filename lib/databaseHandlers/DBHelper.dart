@@ -103,6 +103,14 @@ class DBHelper{
         "type INTEGER, "
         "score INTEGER "
         ")");
+    await db.execute("CREATE TABLE pemeriksaan ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "user_id INTEGER, "
+        "nama TEXT, "
+        "umur INTEGER, "
+        "jenis_kelamin TEXT, "
+        "kelainan_gigi TEXT "
+        ")");
 
     await db.execute("CREATE TABLE $Table_Lansia ("
         "$C_LansiaID INTEGER PRIMARY KEY AUTOINCREMENT, "
